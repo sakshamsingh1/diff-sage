@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="description"
-        content="Deformable Neural Radiance Fields creates free-viewpoint portraits (nerfies) from casually captured videos.">
-  <meta name="keywords" content="Nerfies, D-NeRF, NeRF">
+        content="Audio generation using both text and video.">
+  <meta name="keywords" content="Audio generation, VinTAGe, Video to audio generation, Holistic audio generation">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Nerfies: Deformable Neural Radiance Fields</title>
+  <title>VinTAGe: Joint Video and Text Conditioning for Holistic Audio Generation</title>
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
@@ -34,6 +34,8 @@
   <link rel="stylesheet" href="./static/css/index.css">
   <link rel="icon" href="./static/images/favicon.svg">
 
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script defer src="./static/js/fontawesome.all.min.js"></script>
   <script src="./static/js/bulma-carousel.min.js"></script>
@@ -42,85 +44,264 @@
 </head>
 <body>
 
-<nav class="navbar" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
-  <div class="navbar-menu">
-    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
-      <a class="navbar-item" href="https://keunhong.com">
-      <span class="icon">
-          <i class="fas fa-home"></i>
-      </span>
-      </a>
+## Examples for TAU-NIGENS Spatial Sound Events 2020 (TAU-NIGENS-20) dataset
+Randomly selected examples. (Some samples may have low volume, so you may need to increase the audio level.)
 
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">
-          More Research
-        </a>
-        <div class="navbar-dropdown">
-          <a class="navbar-item" href="https://hypernerf.github.io">
-            HyperNeRF
-          </a>
-          <a class="navbar-item" href="https://nerfies.github.io">
-            Nerfies
-          </a>
-          <a class="navbar-item" href="https://latentfusion.github.io">
-            LatentFusion
-          </a>
-          <a class="navbar-item" href="https://photoshape.github.io">
-            PhotoShape
-          </a>
-        </div>
-      </div>
-    </div>
+<div style="display: flex; justify-content: center;">
+  <table style="width: 800px; table-layout: fixed; text-align: center; border-collapse: collapse;">
+    <tr>
+      <th style="width: 150px;"></th>
+      <th style="width: 150px; white-space: normal;">Ground-Truth</th>
+      <th style="width: 150px; white-space: normal;">Diff-SAGe<br>(Ours)</th>
+      <th style="width: 150px; white-space: normal;">Reference Audio<br>(Simulated)</th>
+      <th style="width: 150px; white-space: normal;">AudioLDM<br>(Simulated)</th>
+      <th style="width: 150px; white-space: normal;">Tango<br>(Simulated)</th>
+    </tr>
+    <tr>
+      <td>Alarm</td>
+      <td><audio src="public/dcase20/dcase20_eval/alarm.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_L/alarm.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_origAudio/alarm.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_audioldm/alarm.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_tango/alarm.wav" controls style="width: 140px;"></audio></td>
+    </tr>
+    <tr>
+      <td>Baby Crying</td>
+      <td><audio src="public/dcase20/dcase20_eval/baby_crying.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_L/baby_crying.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_origAudio/baby_crying.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_audioldm/baby_crying.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_tango/baby_crying.wav" controls style="width: 140px;"></audio></td>
+    </tr>
+    <tr>
+      <td>Crash</td>
+      <td><audio src="public/dcase20/dcase20_eval/crash.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_L/crash.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_origAudio/crash.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_audioldm/crash.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_tango/crash.wav" controls style="width: 140px;"></audio></td>
+    </tr>
+    <tr>
+      <td>Dog Barking</td>
+      <td><audio src="public/dcase20/dcase20_eval/dog_barking.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_L/dog_barking.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_origAudio/dog_barking.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_audioldm/dog_barking.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_tango/dog_barking.wav" controls style="width: 140px;"></audio></td>
+    </tr>
+    <tr>
+      <td>Engine Running</td>
+      <td><audio src="public/dcase20/dcase20_eval/engine_running.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_L/engine_running.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_origAudio/engine_running.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_audioldm/engine_running.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_tango/engine_running.wav" controls style="width: 140px;"></audio></td>
+    </tr>
+    <tr>
+      <td>Female Screaming</td>
+      <td><audio src="public/dcase20/dcase20_eval/female_screaming.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_L/female_screaming.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_origAudio/female_screaming.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_audioldm/female_screaming.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_tango/female_screaming.wav" controls style="width: 140px;"></audio></td>
+    </tr>
+    <tr>
+      <td>Female Speaking</td>
+      <td><audio src="public/dcase20/dcase20_eval/female_speaking.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_L/female_speaking.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_origAudio/female_speaking.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_audioldm/female_speaking.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_tango/female_speaking.wav" controls style="width: 140px;"></audio></td>
+    </tr>
+    <tr>
+      <td>Fire Burning</td>
+      <td><audio src="public/dcase20/dcase20_eval/fire_burning.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_L/fire_burning.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_origAudio/fire_burning.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_audioldm/fire_burning.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_tango/fire_burning.wav" controls style="width: 140px;"></audio></td>
+    </tr>
+    <tr>
+      <td>Footsteps</td>
+      <td><audio src="public/dcase20/dcase20_eval/footsteps.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_L/footsteps.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_origAudio/footsteps.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_audioldm/footsteps.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_tango/footsteps.wav" controls style="width: 140px;"></audio></td>
+    </tr>
+    <tr>
+      <td>Door Knock</td>
+      <td><audio src="public/dcase20/dcase20_eval/knocking_on_door.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_L/knocking_on_door.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_origAudio/knocking_on_door.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_audioldm/knocking_on_door.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_tango/knocking_on_door.wav" controls style="width: 140px;"></audio></td>
+    </tr>
+    <tr>
+      <td>Male Screaming</td>
+      <td><audio src="public/dcase20/dcase20_eval/male_screaming.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_L/male_screaming.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_origAudio/male_screaming.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_audioldm/male_screaming.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_tango/male_screaming.wav" controls style="width: 140px;"></audio></td>
+    </tr>
+    <tr>
+      <td>Male Speaking</td>
+      <td><audio src="public/dcase20/dcase20_eval/male_speaking.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_L/male_speaking.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_origAudio/male_speaking.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_audioldm/male_speaking.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_tango/male_speaking.wav" controls style="width: 140px;"></audio></td>
+    </tr>
+    <tr>
+      <td>Phone Ringing</td>
+      <td><audio src="public/dcase20/dcase20_eval/phone_ringing.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_L/phone_ringing.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_origAudio/phone_ringing.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_audioldm/phone_ringing.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_tango/phone_ringing.wav" controls style="width: 140px;"></audio></td>
+    </tr>
+    <tr>
+      <td>Piano</td>
+      <td><audio src="public/dcase20/dcase20_eval/piano.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_L/piano.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_origAudio/piano.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_audioldm/piano.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase20/dcase20_tango/piano.wav" controls style="width: 140px;"></audio></td>
+    </tr>
+  </table>
+</div>
 
-  </div>
-</nav>
+## Examples for TAU Spatial Sound Events 2019 (TAU-19) dataset
+Randomly selected examples. (Some samples may have low volume, so you may need to increase the audio level.)
 
+<div style="display: flex; justify-content: center;">
+  <table style="width: 800px; table-layout: fixed; text-align: center; border-collapse: collapse;">
+    <tr>
+      <th style="width: 150px;"></th>
+      <th style="width: 150px; white-space: normal;">Ground-Truth</th>
+      <th style="width: 150px; white-space: normal;">Diff-SAGe<br>(Ours)</th>
+      <th style="width: 150px; white-space: normal;">Reference Audio<br>(Simulated)</th>
+      <th style="width: 150px; white-space: normal;">AudioLDM<br>(Simulated)</th>
+      <th style="width: 150px; white-space: normal;">Tango<br>(Simulated)</th>
+    </tr>
+    <tr>
+      <td>Clearthroat</td>
+      <td><audio src="public/dcase19/dcase19_eval/clearthroat.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_L/clearthroat.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_origAudio/clearthroat.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_audioldm/clearthroat.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_tango/clearthroat.wav" controls style="width: 140px;"></audio></td>
+    </tr>
+    <tr>
+      <td>Cough</td>
+      <td><audio src="public/dcase19/dcase19_eval/cough.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_L/cough.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_origAudio/cough.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_audioldm/cough.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_tango/cough.wav" controls style="width: 140px;"></audio></td>
+    </tr>
+    <tr>
+      <td>Door Slam</td>
+      <td><audio src="public/dcase19/dcase19_eval/doorslam.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_L/doorslam.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_origAudio/doorslam.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_audioldm/doorslam.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_tango/doorslam.wav" controls style="width: 140px;"></audio></td>
+    </tr>
+    <tr>
+      <td>Drawer</td>
+      <td><audio src="public/dcase19/dcase19_eval/drawer.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_L/drawer.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_origAudio/drawer.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_audioldm/drawer.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_tango/drawer.wav" controls style="width: 140px;"></audio></td>
+    </tr>
+    <tr>
+      <td>Keyboard</td>
+      <td><audio src="public/dcase19/dcase19_eval/keyboard.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_L/keyboard.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_origAudio/keyboard.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_audioldm/keyboard.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_tango/keyboard.wav" controls style="width: 140px;"></audio></td>
+    </tr>
+    <tr>
+      <td>Keys Drop</td>
+      <td><audio src="public/dcase19/dcase19_eval/keysDrop.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_L/keysDrop.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_origAudio/keysDrop.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_audioldm/keysDrop.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_tango/keysDrop.wav" controls style="width: 140px;"></audio></td>
+    </tr>
+    <tr>
+      <td>Knock</td>
+      <td><audio src="public/dcase19/dcase19_eval/knock.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_L/knock.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_origAudio/knock.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_audioldm/knock.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_tango/knock.wav" controls style="width: 140px;"></audio></td>
+    </tr>
+    <tr>
+      <td>Laughter</td>
+      <td><audio src="public/dcase19/dcase19_eval/laughter.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_L/laughter.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_origAudio/laughter.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_audioldm/laughter.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_tango/laughter.wav" controls style="width: 140px;"></audio></td>
+    </tr>
+    <tr>
+      <td>Page Turn</td>
+      <td><audio src="public/dcase19/dcase19_eval/pageturn.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_L/pageturn.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_origAudio/pageturn.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_audioldm/pageturn.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_tango/pageturn.wav" controls style="width: 140px;"></audio></td>
+    </tr>
+    <tr>
+      <td>Phone</td>
+      <td><audio src="public/dcase19/dcase19_eval/phone.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_L/phone.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_origAudio/phone.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_audioldm/phone.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_tango/phone.wav" controls style="width: 140px;"></audio></td>
+    </tr>
+    <tr>
+      <td>Speech</td>
+      <td><audio src="public/dcase19/dcase19_eval/speech.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_L/speech.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_origAudio/speech.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_audioldm/speech.wav" controls style="width: 140px;"></audio></td>
+      <td><audio src="public/dcase19/dcase19_tango/speech.wav" controls style="width: 140px;"></audio></td>
+    </tr>
+  </table>
+</div>
+<br>
 
 <section class="hero">
   <div class="hero-body">
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">Nerfies: Deformable Neural Radiance Fields</h1>
+          <h1 class="title is-2 publication-title"></h1>
+          <!--
+          <h2 class="title is-5 publication-title">arXiv</h2>
+          -->
           <div class="is-size-5 publication-authors">
             <span class="author-block">
-              <a href="https://keunhong.com">Keunhong Park</a><sup>1</sup>,</span>
+              <a href="https://sakshamsingh1.github.io/">Saksham Singh Kushwaha</a>,</span>
             <span class="author-block">
-              <a href="https://utkarshsinha.com">Utkarsh Sinha</a><sup>2</sup>,</span>
-            <span class="author-block">
-              <a href="https://jonbarron.info">Jonathan T. Barron</a><sup>2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="http://sofienbouaziz.com">Sofien Bouaziz</a><sup>2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="https://www.danbgoldman.com">Dan B Goldman</a><sup>2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="https://homes.cs.washington.edu/~seitz/">Steven M. Seitz</a><sup>1,2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="http://www.ricardomartinbrualla.com">Ricardo Martin-Brualla</a><sup>2</sup>
-            </span>
+              <a href="https://www.yapengtian.com/">Yapeng Tian</a></span>
           </div>
 
           <div class="is-size-5 publication-authors">
-            <span class="author-block"><sup>1</sup>University of Washington,</span>
-            <span class="author-block"><sup>2</sup>Google Research</span>
+            <span class="author-block">University of Texas at Dallas</span>
           </div>
 
           <div class="column has-text-centered">
             <div class="publication-links">
               <!-- PDF Link. -->
               <span class="link-block">
-                <a href="https://arxiv.org/pdf/2011.12948"
+                <a href="https://arxiv.org/pdf/2412.10768"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="fas fa-file-pdf"></i>
@@ -129,7 +310,7 @@
                 </a>
               </span>
               <span class="link-block">
-                <a href="https://arxiv.org/abs/2011.12948"
+                <a href="https://arxiv.org/abs/2412.10768"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="ai ai-arxiv"></i>
@@ -139,33 +320,15 @@
               </span>
               <!-- Video Link. -->
               <span class="link-block">
-                <a href="https://www.youtube.com/watch?v=MrKrnHhk8IA"
+                <a href="https://www.youtube.com/watch?v=QmqWhUjPkJI"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="fab fa-youtube"></i>
                   </span>
-                  <span>Video</span>
+                  <span>Demo Video</span>
                 </a>
               </span>
-              <!-- Code Link. -->
-              <span class="link-block">
-                <a href="https://github.com/google/nerfies"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fab fa-github"></i>
-                  </span>
-                  <span>Code</span>
-                  </a>
-              </span>
-              <!-- Dataset Link. -->
-              <span class="link-block">
-                <a href="https://github.com/google/nerfies/releases/tag/0.1"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="far fa-images"></i>
-                  </span>
-                  <span>Data</span>
-                  </a>
+
             </div>
 
           </div>
@@ -175,81 +338,8 @@
   </div>
 </section>
 
-<section class="hero teaser">
-  <div class="container is-max-desktop">
-    <div class="hero-body">
-      <video id="teaser" autoplay muted loop playsinline height="100%">
-        <source src="./static/videos/teaser.mp4"
-                type="video/mp4">
-      </video>
-      <h2 class="subtitle has-text-centered">
-        <span class="dnerf">Nerfies</span> turns selfie videos from your phone into
-        free-viewpoint
-        portraits.
-      </h2>
-    </div>
-  </div>
-</section>
 
-
-<section class="hero is-light is-small">
-  <div class="hero-body">
-    <div class="container">
-      <div id="results-carousel" class="carousel results-carousel">
-        <div class="item item-steve">
-          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/steve.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-chair-tp">
-          <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/chair-tp.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-shiba">
-          <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/shiba.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-fullbody">
-          <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/fullbody.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-blueshirt">
-          <video poster="" id="blueshirt" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/blueshirt.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-mask">
-          <video poster="" id="mask" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/mask.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-coffee">
-          <video poster="" id="coffee" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/coffee.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-toby">
-          <video poster="" id="toby" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/toby2.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
+  
 <section class="section">
   <div class="container is-max-desktop">
     <!-- Abstract. -->
@@ -258,31 +348,11 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            We present the first method capable of photorealistically reconstructing a non-rigidly
-            deforming scene using photos/videos captured casually from mobile phones.
-          </p>
-          <p>
-            Our approach augments neural radiance fields
-            (NeRF) by optimizing an
-            additional continuous volumetric deformation field that warps each observed point into a
-            canonical 5D NeRF.
-            We observe that these NeRF-like deformation fields are prone to local minima, and
-            propose a coarse-to-fine optimization method for coordinate-based models that allows for
-            more robust optimization.
-            By adapting principles from geometry processing and physical simulation to NeRF-like
-            models, we propose an elastic regularization of the deformation field that further
-            improves robustness.
-          </p>
-          <p>
-            We show that <span class="dnerf">Nerfies</span> can turn casually captured selfie
-            photos/videos into deformable NeRF
-            models that allow for photorealistic renderings of the subject from arbitrary
-            viewpoints, which we dub <i>"nerfies"</i>. We evaluate our method by collecting data
-            using a
-            rig with two mobile phones that take time-synchronized photos, yielding train/validation
-            images of the same pose at different viewpoints. We show that our method faithfully
-            reconstructs non-rigidly deforming scenes and reproduces unseen views with high
-            fidelity.
+            Spatial audio is a crucial component in creating immersive experiences. However, recording it precisely can require expensive and specialized setups. 
+            Traditional simulation-based approaches to generate spatial audio rely on expertise, have limited scalability, and assume independence between semantic and spatial information. 
+            To address these issues, we explore end-to-end spatial audio generation. We introduce and formulate a new task of generating first-order Ambisonics given a sound category and sound source spatial location. 
+            We propose Diff-SAGe, an end-to-end flow-matching transformer diffusion model to approach this task. We carry out comprehensive evaluations on objective metrics related to input conditioning and generation metrics. 
+            Through extensive comparisons on two datasets, we show our end-to-end method outperforms the traditional baselines on both quantitative and qualitative metrics.
           </p>
         </div>
       </div>
@@ -292,9 +362,9 @@
     <!-- Paper video. -->
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
-        <h2 class="title is-3">Video</h2>
+        <h2 class="title is-3">Demo Video</h2>
         <div class="publication-video">
-          <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
+          <iframe src="https://www.youtube.com/embed/J-pBzCMyUKE?rel=0&amp;showinfo=0" title="YouTube video player"
                   frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         </div>
       </div>
@@ -303,165 +373,23 @@
   </div>
 </section>
 
-
-<section class="section">
-  <div class="container is-max-desktop">
-
-    <div class="columns is-centered">
-
-      <!-- Visual Effects. -->
-      <div class="column">
-        <div class="content">
-          <h2 class="title is-3">Visual Effects</h2>
-          <p>
-            Using <i>nerfies</i> you can create fun visual effects. This Dolly zoom effect
-            would be impossible without nerfies since it would require going through a wall.
-          </p>
-          <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/dollyzoom-stacked.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-      </div>
-      <!--/ Visual Effects. -->
-
-      <!-- Matting. -->
-      <div class="column">
-        <h2 class="title is-3">Matting</h2>
-        <div class="columns is-centered">
-          <div class="column content">
-            <p>
-              As a byproduct of our method, we can also solve the matting problem by ignoring
-              samples that fall outside of a bounding box during rendering.
-            </p>
-            <video id="matting-video" controls playsinline height="100%">
-              <source src="./static/videos/matting.mp4"
-                      type="video/mp4">
-            </video>
-          </div>
-
-        </div>
-      </div>
-    </div>
-    <!--/ Matting. -->
-
-    <!-- Animation. -->
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-3">Animation</h2>
-
-        <!-- Interpolating. -->
-        <h3 class="title is-4">Interpolating states</h3>
-        <div class="content has-text-justified">
-          <p>
-            We can also animate the scene by interpolating the deformation latent codes of two input
-            frames. Use the slider here to linearly interpolate between the left frame and the right
-            frame.
-          </p>
-        </div>
-        <div class="columns is-vcentered interpolation-panel">
-          <div class="column is-3 has-text-centered">
-            <img src="./static/images/interpolate_start.jpg"
-                 class="interpolation-image"
-                 alt="Interpolate start reference image."/>
-            <p>Start Frame</p>
-          </div>
-          <div class="column interpolation-video-column">
-            <div id="interpolation-image-wrapper">
-              Loading...
-            </div>
-            <input class="slider is-fullwidth is-large is-info"
-                   id="interpolation-slider"
-                   step="1" min="0" max="100" value="0" type="range">
-          </div>
-          <div class="column is-3 has-text-centered">
-            <img src="./static/images/interpolate_end.jpg"
-                 class="interpolation-image"
-                 alt="Interpolation end reference image."/>
-            <p class="is-bold">End Frame</p>
-          </div>
-        </div>
-        <br/>
-        <!--/ Interpolating. -->
-
-        <!-- Re-rendering. -->
-        <h3 class="title is-4">Re-rendering the input video</h3>
-        <div class="content has-text-justified">
-          <p>
-            Using <span class="dnerf">Nerfies</span>, you can re-render a video from a novel
-            viewpoint such as a stabilized camera by playing back the training deformations.
-          </p>
-        </div>
-        <div class="content has-text-centered">
-          <video id="replay-video"
-                 controls
-                 muted
-                 preload
-                 playsinline
-                 width="75%">
-            <source src="./static/videos/replay.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <!--/ Re-rendering. -->
-
-      </div>
-    </div>
-    <!--/ Animation. -->
-
-
-    <!-- Concurrent Work. -->
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-3">Related Links</h2>
-
-        <div class="content has-text-justified">
-          <p>
-            There's a lot of excellent work that was introduced around the same time as ours.
-          </p>
-          <p>
-            <a href="https://arxiv.org/abs/2104.09125">Progressive Encoding for Neural Optimization</a> introduces an idea similar to our windowed position encoding for coarse-to-fine optimization.
-          </p>
-          <p>
-            <a href="https://www.albertpumarola.com/research/D-NeRF/index.html">D-NeRF</a> and <a href="https://gvv.mpi-inf.mpg.de/projects/nonrigid_nerf/">NR-NeRF</a>
-            both use deformation fields to model non-rigid scenes.
-          </p>
-          <p>
-            Some works model videos with a NeRF by directly modulating the density, such as <a href="https://video-nerf.github.io/">Video-NeRF</a>, <a href="https://www.cs.cornell.edu/~zl548/NSFF/">NSFF</a>, and <a href="https://neural-3d-video.github.io/">DyNeRF</a>
-          </p>
-          <p>
-            There are probably many more by the time you are reading this. Check out <a href="https://dellaert.github.io/NeRF/">Frank Dellart's survey on recent NeRF papers</a>, and <a href="https://github.com/yenchenlin/awesome-NeRF">Yen-Chen Lin's curated list of NeRF papers</a>.
-          </p>
-        </div>
-      </div>
-    </div>
-    <!--/ Concurrent Work. -->
-
-  </div>
-</section>
-
-
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
     <h2 class="title">BibTeX</h2>
-    <pre><code>@article{park2021nerfies,
-  author    = {Park, Keunhong and Sinha, Utkarsh and Barron, Jonathan T. and Bouaziz, Sofien and Goldman, Dan B and Seitz, Steven M. and Martin-Brualla, Ricardo},
-  title     = {Nerfies: Deformable Neural Radiance Fields},
-  journal   = {ICCV},
-  year      = {2021},
+    <pre><code>@article{kushwaha2024diff,
+  title={Diff-SAGe: End-to-End Spatial Audio Generation Using Diffusion Models},
+  author={Kushwaha, Saksham Singh and Ma, Jianbo and Thomas, Mark RP and Tian, Yapeng and Bruni, Avery},
+  journal={arXiv preprint arXiv:2410.11299},
+  year={2024}
+}
 }</code></pre>
   </div>
 </section>
 
-
 <footer class="footer">
   <div class="container">
     <div class="content has-text-centered">
-      <a class="icon-link"
-         href="./static/videos/nerfies_paper.pdf">
-        <i class="fas fa-file-pdf"></i>
-      </a>
-      <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
+      <a class="icon-link" href="https://sakshamsingh1.github.io/" class="external-link" disabled>
         <i class="fab fa-github"></i>
       </a>
     </div>
@@ -469,16 +397,7 @@
       <div class="column is-8">
         <div class="content">
           <p>
-            This website is licensed under a <a rel="license"
-                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
-            Commons Attribution-ShareAlike 4.0 International License</a>.
-          </p>
-          <p>
-            This means you are free to borrow the <a
-              href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website,
-            we just ask that you link back to this page in the footer.
-            Please remember to remove the analytics code included in the header of the website which
-            you do not want on your website.
+            This template is adapted from <a href='https://github.com/nerfies/nerfies.github.io'>Nerfies</a>.
           </p>
         </div>
       </div>
