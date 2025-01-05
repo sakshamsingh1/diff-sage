@@ -1,4 +1,4 @@
-# Nerfies
+# Diff-SAGe
 
 This is the repository that contains source code for the [Diff-SAGe website](https://sakshamsingh1.github.io/diff-sage/).
 
